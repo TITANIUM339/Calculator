@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./script.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <title>Calculator</title>
+</head>
+<body>
+    <main>
+        <div class="calculator-body">
+            <div class="display">
+                <div class="main-screen">0</div>
+                <div class="secondary-screen">0+0=0</div>
+            </div>
+            <div class="buttons">
+                <button class="btn number">7</button>
+                <button class="btn number">8</button>
+                <button class="btn number">9</button>
+                <button class="btn func">DEL</button>
+                <button class="btn func">AC</button>
+                
+                <button class="btn number">4</button>
+                <button class="btn number">5</button>
+                <button class="btn number">6</button>
+                <button class="btn operator">&times;</button>
+                <button class="btn operator">&div;</button>
+
+                <button class="btn number">1</button>
+                <button class="btn number">2</button>
+                <button class="btn number">3</button>
+                <button class="btn operator">+</button>
+                <button class="btn operator">-</button>
+
+                <button class="btn number">0</button>
+                <button class="btn dot">.</button>
+                <button class="btn equal">=</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <span class="copyright"></span>
+        <span class="icon">
+            <a href="https://github.com/TITANIUM339" target="_blank"><img id="githubIcon" src="./images/github.svg" alt="github"></a>
+        </span>
+    </footer>
+    <script>
+        document.querySelector(".copyright").innerHTML = `Copyright &#169; TITANIUM339 ${new Date().getFullYear()}`;
+    </script>
+    <style>
+        #githubIcon {
+            max-width: 25px;
+            height: auto;
+            transition: all .2s ease-in-out;
+        }
+
+        #githubIcon:hover {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>
