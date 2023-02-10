@@ -8,35 +8,60 @@ body {
     font-family: sans-serif;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
 .calculator-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 600px;
-    width: 400px;
+    aspect-ratio: 2 / 3;
+    max-height: 600px;
+    max-width: 400px;
+    min-height: 300px;
+    flex: 1;
     border: 1px solid black;
+    margin: 10px;
 }
 
 .display {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-end;
-    justify-content: space-between;
+    display: grid;
+    grid-auto-rows: 1fr;
     height: 30%;
     width: 100%;
     box-sizing: border-box;
     padding: 20px;
+    padding-bottom: 0px;
     border: 1px solid black;
+    text-align: right;
+    white-space: nowrap;
 }
 
+.main-screen::-webkit-scrollbar, .secondary-screen::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .main-screen, .secondary-screen {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+
 .main-screen {
+    align-self: flex-end;
+    overflow-x: scroll;
     font-size: xx-large;
 }
 
 .secondary-screen{
+    overflow-x: scroll;
     font-size: large;
-    letter-spacing: 3px;
 }
 
 .buttons {

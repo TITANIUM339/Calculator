@@ -12,15 +12,15 @@
     <main>
         <div class="calculator-body">
             <div class="display">
+                <div class="secondary-screen"></div>
                 <div class="main-screen">0</div>
-                <div class="secondary-screen">0+0=0</div>
             </div>
             <div class="buttons">
                 <button class="btn number">7</button>
                 <button class="btn number">8</button>
                 <button class="btn number">9</button>
-                <button class="btn func">DEL</button>
-                <button class="btn func">AC</button>
+                <button class="btn func" id="del">DEL</button>
+                <button class="btn func" id="ac">AC</button>
                 
                 <button class="btn number">4</button>
                 <button class="btn number">5</button>
@@ -40,7 +40,7 @@
             </div>
         </div>
     </main>
-    <footer>
+    <footer style="text-align: center; flex-wrap: wrap; padding: 10px;">
         <span class="copyright"></span>
         <span class="icon">
             <a href="https://github.com/TITANIUM339" target="_blank"><img id="githubIcon" src="./images/github.svg" alt="github"></a>
