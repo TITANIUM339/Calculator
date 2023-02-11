@@ -145,7 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    document.querySelector("#ac").addEventListener(("click"), (event => event.pointerType !== "", ac));
+    document.querySelector("#ac").addEventListener(("click"), event => {
+        if (event.pointerType !== "") {
+            ac();
+        }
+    });
 
     function delButton() {
         if (infinityOrZero || equal) {
@@ -165,7 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    document.querySelector("#del").addEventListener("click", event => event.pointerType !== "", delButton);
+    document.querySelector("#del").addEventListener("click", event => {
+        if (event.pointerType !== "") {
+            delButton();
+        }
+    });
 
     function operatorButton(button) {
         if (infinityOrZero) {
