@@ -5,7 +5,7 @@ let infinityOrZero = false;
 // True when user clicks on the equal button.
 let equal = false;
 
-// Current selected operation (+, -, ×, ÷).
+// Current selected operation.
 let operation = null;
 
 let operand1 = null;
@@ -25,7 +25,7 @@ function operate(a, b, operation) {
 
             result = a + b;
 
-            return Number.isInteger(result) ? result : result.toFixed(15) / 1;
+            return Number.isInteger(result) ? result : result.toFixed(5) / 1;
         case "-":
             if (a - b === Infinity) {
                 infinityOrZero = true
@@ -34,7 +34,7 @@ function operate(a, b, operation) {
 
             result = a - b;
 
-            return Number.isInteger(result) ? result : result.toFixed(15) / 1;
+            return Number.isInteger(result) ? result : result.toFixed(5) / 1;
         case "×":
             if (a * b === Infinity) {
                 infinityOrZero = true
@@ -43,7 +43,7 @@ function operate(a, b, operation) {
 
             result = a * b;
 
-            return Number.isInteger(result) ? result : result.toFixed(15) / 1;
+            return Number.isInteger(result) ? result : result.toFixed(5) / 1;
         case "÷":
             // Incase user wants to divide by zero :).
             if (b === 0) {
@@ -53,7 +53,7 @@ function operate(a, b, operation) {
 
             result = a / b;
 
-            return Number.isInteger(result) ? result : result.toFixed(15) / 1;
+            return Number.isInteger(result) ? result : result.toFixed(5) / 1;
         default:
             return;
     }
@@ -87,56 +87,67 @@ document.addEventListener("DOMContentLoaded", () => {
         mainScreen.scrollLeft += evt.deltaY;
     });
 
-    numbers.forEach(number => {
-        number.addEventListener("click", event => {
-            if (equal || infinityOrZero) {
-                ac();
-
-                // Display entered number on main-screen.
-                mainScreen.innerText = event.target.innerText;
-
-                overWrite = false;
-            }
-            else if (overWrite) {
-                mainScreen.innerText = event.target.innerText;
-
-                overWrite = false;
-            }
-            // Make sure user doesn't input more than 15 characters.
-            else if (!(mainScreen.innerText.length >= 15)) {
-                // Append entered number to number in main-screen.
-                mainScreen.innerText += event.target.innerText;
-            }
-        });
-    });
-
-    document.querySelector(".dot").addEventListener("click", event => {
+    function numberButton(button) {
         if (equal || infinityOrZero) {
             ac();
 
-            // Display "0." on main-screen.
-            mainScreen.innerText = "0" + event.target.innerText;
+            // Display entered number on main-screen.
+            mainScreen.innerText = button;
 
             overWrite = false;
         }
         else if (overWrite) {
-            mainScreen.innerText = "0" + event.target.innerText;
+            mainScreen.innerText = button;
+
+            overWrite = false;
+        }
+        // Make sure user doesn't input more than 15 characters.
+        else if (!(mainScreen.innerText.length >= 15)) {
+            // Append entered number to number in main-screen.
+            mainScreen.innerText += button;
+        }
+    }
+
+    numbers.forEach(number => {
+        number.addEventListener("click", event => {
+            if (event.pointerType !== "") {
+                numberButton(event.target.innerText);
+            }
+        });
+    });
+
+    function dotButton(button) {
+        if (equal || infinityOrZero) {
+            ac();
+
+            // Display "0." on main-screen.
+            mainScreen.innerText = "0" + button;
+
+            overWrite = false;
+        }
+        else if (overWrite) {
+            mainScreen.innerText = "0" + button;
 
             overWrite = false;
         }
         // Make sure user doesn't input more than one dot.
         else if (!mainScreen.innerText.includes(".")) {
             // Append dot to number in main-screen.
-            mainScreen.innerText += event.target.innerText;
+            mainScreen.innerText += button;
 
             overWrite = false;
         }
+    }
+
+    document.querySelector(".dot").addEventListener("click", event => {
+        if (event.pointerType !== "") {
+            dotButton(event.target.innerText);
+        }
     });
 
-    document.querySelector("#ac").addEventListener(("click"), ac);
+    document.querySelector("#ac").addEventListener(("click"), (event => event.pointerType !== "", ac));
 
-    // Delete one character from main-screen.
-    document.querySelector("#del").addEventListener("click", () => {
+    function delButton() {
         if (infinityOrZero || equal) {
             ac();
         }
@@ -152,50 +163,58 @@ document.addEventListener("DOMContentLoaded", () => {
                 mainScreen.innerText = trimmedText;
             } 
         }
-    });
+    }
 
+    document.querySelector("#del").addEventListener("click", event => event.pointerType !== "", delButton);
+
+    function operatorButton(button) {
+        if (infinityOrZero) {
+            ac();
+        }
+        // If user didn't select an operation.
+        else if (operation === null) {
+            operation = button;
+
+            operand1 = Number(mainScreen.innerText);
+
+            // Display operand1 and operation on secondary-screen. 
+            secondaryScreen.innerText = `${operand1} ${operation}`;
+
+            overWrite = true;
+            equal = false;
+        }
+        // If user changes the operation.
+        else if (operation && operand1 !== null && overWrite) {
+            operation = button;
+
+            // Display operand1 and new selected operation on secondary-screen.
+            secondaryScreen.innerText = `${operand1} ${operation}`;
+
+            equal = false;
+        }
+        // If user does multiple operations.
+        else {
+            operand2 = Number(mainScreen.innerText);
+            operand1 = operate(operand1, operand2, operation);
+
+            operation = button;
+
+            secondaryScreen.innerText = `${operand1} ${operation}`;
+
+            overWrite = true;
+            equal = false;
+        }
+    }
+    
     operators.forEach(operator => {
         operator.addEventListener("click", event => {
-            if (infinityOrZero) {
-                ac();
-            }
-            // If user didn't select an operation.
-            else if (operation === null) {
-                operation = event.target.innerText;
-
-                operand1 = Number(mainScreen.innerText);
-
-                // Display operand1 and operation on secondary-screen. 
-                secondaryScreen.innerText = `${operand1} ${operation}`;
-
-                overWrite = true;
-                equal = false;
-            }
-            // If user changes the operation.
-            else if (operation && operand1 !== null && overWrite) {
-                operation = event.target.innerText;
-
-                // Display operand1 and new selected operation on secondary-screen.
-                secondaryScreen.innerText = `${operand1} ${operation}`;
-
-                equal = false;
-            }
-            // If user does multiple operations.
-            else {
-                operand2 = Number(mainScreen.innerText);
-                operand1 = operate(operand1, operand2, operation);
-
-                operation = event.target.innerText;
-
-                secondaryScreen.innerText = `${operand1} ${operation}`;
-
-                overWrite = true;
-                equal = false;
+            if (event.pointerType !== "") {
+                operatorButton(event.target.innerText);
             }
         });
     });
 
-    document.querySelector(".equal").addEventListener("click", event => {
+    function equalButton(button) {
         if (infinityOrZero) {
             ac();
         }
@@ -204,11 +223,57 @@ document.addEventListener("DOMContentLoaded", () => {
             
             operand2 = Number(mainScreen.innerText);
 
-            secondaryScreen.innerText += ` ${operand2} ${event.target.innerText}`;
+            secondaryScreen.innerText += ` ${operand2} ${button}`;
 
             mainScreen.innerText = operate(operand1, operand2, operation);
 
             operation = operand1 = operand2 = null;
+        }
+    }
+
+    document.querySelector(".equal").addEventListener("click", event => {
+        if (event.pointerType !== "") {
+            equalButton(event.target.innerText);
+        }
+    });
+
+    // Handel keyboard input.
+    document.addEventListener("keydown", event => {
+        if (event.key >= "0" && event.key <= "9") {
+            numberButton(event.key);
+        }
+        else if (event.key === "=" || event.key === "Enter") {
+            equalButton("=");
+        }
+        else {
+            switch (event.key) {
+                case "+":
+                    operatorButton("+");
+                    break;
+                
+                case "-":
+                    operatorButton("-");
+                    break;
+
+                case "*":
+                    operatorButton("×");
+                    break;
+
+                case "/":
+                    operatorButton("÷");
+                    break;
+
+                case ".":
+                    dotButton(".");
+                    break;
+
+                case "Backspace":
+                    delButton();
+                    break;
+
+                default:
+                    break;
+            }
         }
     });
 });
