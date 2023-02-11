@@ -4,6 +4,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    gap: 20px;
     align-items: center;
     font-family: sans-serif;
 }
