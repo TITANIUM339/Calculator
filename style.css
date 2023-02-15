@@ -1,12 +1,12 @@
 body {
-    height: 100vh;
+    height: calc(100vh - 10px);
     margin: 0;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    gap: 20px;
     align-items: center;
     font-family: sans-serif;
+    gap: 10px;
 }
 
 main {
@@ -21,27 +21,26 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    aspect-ratio: 2 / 3;
+    align-items: center; 
     max-height: 600px;
     max-width: 400px;
-    min-height: 300px;
-    flex: 1;
-    border: 1px solid black;
+    height: 100%;
+    width: 100%;
     margin: 10px;
 }
 
 .display {
     display: grid;
     grid-auto-rows: 1fr;
-    height: 30%;
     width: 100%;
     box-sizing: border-box;
     padding: 20px;
     padding-bottom: 0px;
-    border: 1px solid black;
+    border: 2px solid black;
     text-align: right;
     white-space: nowrap;
+    border-bottom: 1px solid;
+    min-height: fit-content;
 }
 
 .main-screen::-webkit-scrollbar, .secondary-screen::-webkit-scrollbar {
@@ -68,8 +67,11 @@ main {
 .buttons {
     display: grid;
     width: 100%;
-    height: 70%;
-    grid-template-columns: repeat(5, auto);
+    height: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-top: 0;
 }
 
 .btn {
